@@ -15,17 +15,17 @@ var stockFollowSchema = mongoose.Schema({
 
 var stocksFollow = module.exports = mongoose.model('stocksFollow', stockFollowSchema);
 
-//Get Book
-module.exports.getStock = function (callback, limit) {
+//Get Stock
+module.exports.getStocks = function (callback, limit) {
   stocksFollow.find(callback).limit(limit);
 }
 
-//Get Book
+//Get Stock
 module.exports.getStockBySymbol = function (symbol, callback) {
   stocksFollow.findById(symbol, callback);
 }
 
-//Add Book
+//Add Stock
 module.exports.addStock = function(stock, callback) {
   stocksFollow.create(stock, callback);
 }

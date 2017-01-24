@@ -3,8 +3,6 @@ var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
-var app = express();
-
 app.use(express.static(__dirname + '/client'));
 app.use(bodyParser.json());
 
@@ -52,6 +50,6 @@ app.post('/api/stocksFollow', function (req, res)  {
 
 // start listening to requests on port 8000
 app.listen(8000);
-
+console.log('starting...');
 // export our app for testing and flexibility, required by index.js
 module.exports = app;

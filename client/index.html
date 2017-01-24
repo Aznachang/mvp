@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html ng-app='stocks'>
+  <head>
+    <meta charset="utf-8" />
+    <title>Stock Market</title>
+    <link rel="stylesheet" type="text/css" href="styles/style.css" />
+
+    <!-- <script type="app/app.js"></script> -->
+  </head>
+  <body>
+  <div class = "stock-market-container" ng-controller = "myStockChart">
+    <h1>Stock Market Chart</h1>
+
+    <p>Enter Stock Symbol: </p>
+    <input type = "text" ng-model = "stockSym"/>
+    <button ng-click="getStock()">Submit</button>
+    <button ng-click="storeFavStock()">Follow</button>
+
+  <p>Followed Stocks</p>
+<!--   <table>
+    <tr ng-repeat="x in names">
+      <td>{{ x.Name }}</td>
+      <td>{{ x.Country }}</td>
+    </tr>
+  </table> -->
+
+  <div id="container" style="height: 400px; min-width: 310px"></div>
+
+</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="http://code.highcharts.com/stock/highstock.js"></script>
+    <script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
+    <script type="maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"></script>
+    <script type="app/chart.js"></script>
+
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular-route/angular-route.js"></script>
+    <script src="app/stocks.js"></script>
+    <script src="app.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+  </body>
+</html>

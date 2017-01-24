@@ -3,7 +3,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
-app.use(express.static(__dirname + '/client'));
+app.use(express.static('/Users/albertchang/Desktop/hrsf53-mvp/client/'));
 app.use(bodyParser.json());
 
 Stock = require('./stocks.js');
@@ -13,7 +13,8 @@ mongoose.connect('mongodb://localhost/stocks');
 var db = mongoose.connection;
 
 app.get('/', function(req,res) {
-  res.send('Please use /api/stocks!');
+  //res.send('Please use /api/stocksFollow!');
+  res.sendFile('/Users/albertchang/Desktop/hrsf53-mvp/client/index.html');
 });
 
 app.get('/api/stocksFollow', function (req, res) {

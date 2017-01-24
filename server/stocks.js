@@ -20,10 +20,10 @@ module.exports.getStocks = function (callback, limit) {
   stocksFollow.find(callback).limit(limit);
 }
 
-//Get Stock
-module.exports.getStockBySymbol = function (symbol, callback) {
-  stocksFollow.findById(symbol, callback);
-}
+// //Get Stock
+// module.exports.getStockBySymbol = function (symbol, callback) {
+//   stocksFollow.findById(symbol, callback);
+// }
 
 //Add Stock
 module.exports.addStock = function(stock, callback) {

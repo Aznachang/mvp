@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 
 app.use(express.static('/Users/albertchang/Desktop/hrsf53-mvp/client/'));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
 
 //Refer to the --> stocksfollows 'collection' table
 Stock = require('./stocks.js');

@@ -3,6 +3,7 @@ var stocks = angular.module('stocks', ['ngRoute']);
 stocks.controller('myStockChart', ['$scope', '$http', '$location', '$routeParams', function($scope, $http, $location, $routeParams) {
   //initialize - define scope variables
   $scope.stockSym = 'yhoo';
+  $scope.stocks = [];
  // $scope.stocks = [];
 
   console.log('stocksController fired...');
@@ -96,28 +97,37 @@ stocks.controller('myStockChart', ['$scope', '$http', '$location', '$routeParams
   //Store Follow Stock to Database
   $scope.storeFavStock = function() {
     console.log('Follow Btn - Follow Stock');
-     var data = $.param({
-        name: $scope.stockSym,
-     });
 
-      var config = {
-          headers : {
-            'Content-Type': 'application/json'
-          }
+    var data = $.param({
+      symbol: $scope.stockSym
+    });
+
+    var config = {
+      headers : {
+        'Content-Type': 'application/json'
       }
-    $http({
-      method: 'POST',
-      url: '/api/stocksfollows'
-    }).then(function successCallback(response) {
-        // this callback will be called asynchronously
-        // when the response is available
-        $scope.PostDataResponse = data;
-        //window.location.href='#/stocks';
-      }, function errorCallback(response) {
-        // called asynchronously if an error occurs
-        // or server returns response with an error status.
-         console.log('could not store stock!');
+    }
+
+    $http.post('/api/stocksfollows', data, config)
+      .success(function (data, status, headers, config) {
+        // $scope.PostDataResponse = data;
+      })
+      .error(function (data, status, header, config) {
+        console.log('Could Not Follow: ' + $scope.stockSym + '!');
       });
+    // $http({
+    //   method: 'POST',
+    //   url: '/api/stocksfollows',
+    // }).then(function successCallback(response) {
+    //     // this callback will be called asynchronously
+    //     // when the response is available
+
+    //     //window.location.href='#/stocks';
+    //   }, function errorCallback(response) {
+    //     // called asynchronously if an error occurs
+    //     // or server returns response with an error status.
+    //      console.log('could not store stock!');
+    //   });
   };
 
   //send input 'stock' field-data to SERVER

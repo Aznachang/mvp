@@ -1,12 +1,123 @@
 var stocks = angular.module('stocks', ['ngRoute']);
 //SERVER
-stocks.controller('myStockChart', ['$scope', function($scope) {
+stocks.controller('myStockChart', ['$scope', '$http', '$location', '$routeParams', function($scope, $http, $location, $routeParams) {
   //initialize - define scope variables
   $scope.stockSym = 'yhoo';
-  console.log('stocks Controller fired...');
+ // $scope.stocks = [];
 
+  console.log('stocksController fired...');
+
+  //Show All Stocks
+  $scope.showFavStocks = function() {
+    console.log('Show Followed Btn - Favorite Stocks');
+
+    $http({
+      method: 'GET',
+      url: '/api/stocksfollows'
+    }).then(function successCallback(response) {
+        // this callback will be called asynchronously
+        // when the response is available
+        console.log(response.data); //sends back data from '/api/stocksfollows'
+        var stocksFollow = response.data;
+
+        var seriesOptions = [],
+            seriesCounter = 0,
+            names = [];
+        for (var i = 0; i < stocksFollow.length; i++) {
+          names.push(stocksFollow[i].symbol);
+        }
+        console.log(names);
+    /**
+     * Create the chart when all data is loaded
+     * @returns {undefined}
+     */
+      var createChart = function () {
+        Highcharts.stockChart('container', {
+
+          rangeSelector: {
+              selected: 4
+          },
+
+          yAxis: {
+              labels: {
+                  formatter: function () {
+                      return (this.value > 0 ? ' + ' : '') + this.value + '%';
+                  }
+              },
+              plotLines: [{
+                  value: 0,
+                  width: 2,
+                  color: 'silver'
+              }]
+          },
+
+          plotOptions: {
+              series: {
+                  compare: 'percent',
+                  showInNavigator: true
+              }
+          },
+
+          tooltip: {
+              pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+              valueDecimals: 2,
+              split: true
+          },
+
+          series: seriesOptions
+        });
+      }
+
+      $.each(names, function (i, name) {
+        $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=' + name.toLowerCase() + '-c.json&callback=?',    function (data) {
+
+            seriesOptions[i] = {
+                name: name,
+                data: data
+            };
+
+            // As we're loading the data asynchronously, we don't know what order it will arrive. So
+            // we keep a counter and create the chart when all the data is loaded.
+            seriesCounter += 1;
+
+            if (seriesCounter === names.length) {
+                createChart();
+            }
+        });
+      });
+
+      }, function errorCallback(response) {
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+        console.log('could not receive followed stocks!');
+      });
+  };
+
+  //Store Follow Stock to Database
   $scope.storeFavStock = function() {
+    console.log('Follow Btn - Follow Stock');
+     var data = $.param({
+        name: $scope.stockSym,
+     });
 
+      var config = {
+          headers : {
+            'Content-Type': 'application/json'
+          }
+      }
+    $http({
+      method: 'POST',
+      url: '/api/stocksfollows'
+    }).then(function successCallback(response) {
+        // this callback will be called asynchronously
+        // when the response is available
+        $scope.PostDataResponse = data;
+        //window.location.href='#/stocks';
+      }, function errorCallback(response) {
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+         console.log('could not store stock!');
+      });
   };
 
   //send input 'stock' field-data to SERVER
@@ -43,7 +154,7 @@ stocks.controller('myStockChart', ['$scope', function($scope) {
 
               title: {
                   //text: $scope.stockSym.toUpperCase()
-                   text: stockName + ' (' + $scope.stockSym.toUpperCase() + ')' + ': ' + stockClose + changeValue
+                   text: stockName + ' (' + $scope.stockSym.toUpperCase() + ')' + ': ' + stockClose + ' ' + changeValue
               },
 
               series: [{

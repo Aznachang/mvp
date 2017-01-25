@@ -6,9 +6,10 @@ var mongoose = require('mongoose');
 app.use(express.static('/Users/albertchang/Desktop/hrsf53-mvp/client/'));
 app.use(bodyParser.json());
 
+//Refer to the --> stocksfollows 'collection' table
 Stock = require('./stocks.js');
 
-// connect to mongo database named "shortly"
+// connect to mongo database named "stocks"
 mongoose.connect('mongodb://localhost/stocks');
 var db = mongoose.connection;
 
@@ -17,7 +18,7 @@ app.get('/', function(req,res) {
   res.sendFile('/Users/albertchang/Desktop/hrsf53-mvp/client/index.html');
 });
 
-app.get('/api/stocksFollow', function (req, res) {
+app.get('/api/stocksfollows', function (req, res) {
   Stock.getStocks(function (err, stock) {
     if(err){
       throw err;
@@ -26,10 +27,10 @@ app.get('/api/stocksFollow', function (req, res) {
   });
 });
 
-app.post('/api/stocksFollow', function (req, res)  {
+app.post('/api/stocksfollows', function (req, res)  {
   var stocksFollow = req.body;
 
-  stocksFollow.addStock(stocksFollow, function (err, stocksFollow)  {
+  Stock.addStock(stocksFollow, function (err, stocksFollow)  {
     if(err){
       throw err;
     }
@@ -37,16 +38,16 @@ app.post('/api/stocksFollow', function (req, res)  {
   });
 });
 
-app.post('/api/stocksFollow', function (req, res)  {
-  var stocksFollow = req.body;
+// app.post('/api/stocksfollows', function (req, res)  {
+//   var stocksFollow = req.body;
 
-  stocksFollow.addStock(stocksFollow, function (err, stocksFollow)  {
-    if(err){
-      throw err;
-    }
-    res.json(stocksFollow);
-  });
-});
+//   stocksFollow.addStock(stocksFollow, function (err, stocksFollow)  {
+//     if(err){
+//       throw err;
+//     }
+//     res.json(stocksFollow);
+//   });
+// });
 
 // start listening to requests on port 8000
 app.listen(8000);

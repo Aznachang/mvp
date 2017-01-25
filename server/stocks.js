@@ -13,11 +13,11 @@ var stockFollowSchema = mongoose.Schema({
   }
 });
 
-var stocksFollow = module.exports = mongoose.model('stocksFollow', stockFollowSchema);
+var stocksfollows = module.exports = mongoose.model('stocksfollows', stockFollowSchema);
 
 //Get Stock
 module.exports.getStocks = function (callback, limit) {
-  stocksFollow.find(callback).limit(limit);
+  stocksfollows.find(callback).limit(limit);
 }
 
 // //Get Stock
@@ -27,5 +27,5 @@ module.exports.getStocks = function (callback, limit) {
 
 //Add Stock
 module.exports.addStock = function(stock, callback) {
-  stocksFollow.create(stock, callback);
+  stocksfollows.create(stock, callback);
 }

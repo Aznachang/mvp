@@ -97,18 +97,18 @@ stocks.controller('myStockChart', ['$scope', '$http', '$location', '$routeParams
   //Store Follow Stock to Database
   $scope.storeFavStock = function() {
     console.log('Follow Btn - Follow Stock');
+    var parameter = JSON.stringify({symbol: $scope.stockSym});
+    // var data = $.param({
+    //   symbol: $scope.stockSym
+    // });
 
-    var data = $.param({
-      symbol: $scope.stockSym
-    });
+    // var config = {
+    //   headers : {
+    //     'Content-Type': 'application/json'
+    //   }
+    // }
 
-    var config = {
-      headers : {
-        'Content-Type': 'application/json'
-      }
-    }
-
-    $http.post('/api/stocksfollows', data, config)
+    $http.post('/api/stocksfollows', parameter)//JSON.stringifydata, config)
       .success(function (data, status, headers, config) {
         // $scope.PostDataResponse = data;
       })

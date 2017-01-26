@@ -14,10 +14,11 @@ Stock = require('./stocks.js');
 mongoose.connect('mongodb://localhost/stocks');
 var db = mongoose.connection;
 
-app.get('/', function(req,res) {
-  //res.send('Please use /api/stocksFollow!');
-  res.sendFile('/Users/albertchang/Desktop/hrsf53-mvp/client/index.html');
-});
+//home page should just serve base index.html from 'client' folder
+// app.get('/', function(req,res) {
+//   //res.send('Please use /api/stocksFollow!');
+//   //res.sendFile('/Users/albertchang/Desktop/hrsf53-mvp/client/index.html');
+// });
 
 app.get('/api/stocksfollows', function (req, res) {
   Stock.getStocks(function (err, stock) {
@@ -29,6 +30,7 @@ app.get('/api/stocksfollows', function (req, res) {
 });
 
 app.post('/api/stocksfollows', function (req, res)  {
+  //always have a var. accessing req.body
   var stocksFollow = req.body;
 
   Stock.addStock(stocksFollow, function (err, stocksFollow)  {
